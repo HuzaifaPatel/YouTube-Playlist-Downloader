@@ -1,6 +1,7 @@
 from youtube_connecter import youtube, playlist_id
 import os
-import youtube_dl
+import yt_dlp as youtube_dl
+import logging
 
 def get_playlist(token_offset):
 
@@ -33,6 +34,7 @@ def download_video_mp3(youtube_url):
 	try:
 		ydl_opts = {
 			'outtmpl': '%(title)s.%(ext)s',
+			'quiet' : True,
 			'noplaylist' : True, 
 			'format' : 'bestaudio/best',
 			'keepvideo': False,
@@ -46,7 +48,6 @@ def download_video_mp3(youtube_url):
 		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 			ydl.download([youtube_url])
 	except Exception as e:
-		with open("fail.log", "a+") as fail_log:
-			fail_log.write(youtube_url + "\n")
+		logging.warning("Failed Download: " + youtube_url)
 
 get_youtube_video_id()
