@@ -29,7 +29,7 @@ def get_youtube_video_id():
 
 
 def download_video_mp3(youtube_url):
-	os.chdir("/home/huzi/Music")
+	os.chdir("/home/huzi/Music/Stream")
 
 	try:
 		ydl_opts = {
