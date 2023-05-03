@@ -2,6 +2,13 @@ from youtube_connecter import youtube, playlist_id
 import os
 import yt_dlp as youtube_dl
 import logging
+PATH = ""
+
+if playlist_id == 'PL-iwWIXCptDxMMTT7MOQBAPoLDeFukrsd':
+	PATH="/home/huzi/Music/Stream/"
+else:
+	PATH="/home/huzi/Music/Chill/"
+
 
 def get_playlist(token_offset):
 
@@ -24,30 +31,34 @@ def get_youtube_video_id():
 
 	while 'nextPageToken' in playlist_data:
 		for item in playlist_data['items']:
-			download_video_mp3("https://www.youtube.com/watch?v=" + item['snippet']['resourceId']['videoId'])
+			download_video_mp3("https://www.youtube.com/watch?v=" + item['snippet']['resourceId']['videoId'], item['snippet']['title'])
 		playlist_data = get_playlist(playlist_data['nextPageToken'])
 
 
-def download_video_mp3(youtube_url):
-	os.chdir("/home/huzi/Music/Stream")
+def download_video_mp3(youtube_url, video_name):
+	os.chdir(PATH)
 
-	try:
-		ydl_opts = {
-			'outtmpl': '%(title)s.%(ext)s',
-			'quiet' : True,
-			'noplaylist' : True, 
-			'format' : 'bestaudio/best',
-			'keepvideo': False,
-			'postprocessors': [{
-	         'key': 'FFmpegExtractAudio',
-	         'preferredcodec': 'mp3',
-	         'preferredquality': '192',
-	     }]
-		}
+	if os.path.exists(video_name + ".mp3") or os.path.isfile(video_name + ".wav"):
+		return
+	else:
+		try:
+			ydl_opts = {
+				'outtmpl': '%(title)s.%(ext)s',
+				'quiet' : True,
+				'noplaylist' : True,
+				# 'download_archive' : PATH + ".log.txt",
+				'format' : 'bestaudio/best',
+				'keepvideo': False,
+				'postprocessors': [{
+		         'key': 'FFmpegExtractAudio',
+		         'preferredcodec': 'mp3',
+		         'preferredquality': '192',
+		     }]
+			}
 
-		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-			ydl.download([youtube_url])
-	except Exception as e:
-		logging.warning("Failed Download: " + youtube_url)
+			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+				ydl.download([youtube_url])
+		except Exception as e:
+			logging.warning("Failed Download: " + youtube_url)
 
 get_youtube_video_id()
