@@ -4,9 +4,12 @@ VERSION='v3'
 playlist_id='PL-iwWIXCptDxMMTT7MOQBAPoLDeFukrsd'
 
 def get_api_key():
-	api_key = open("api_key", "r")
-	return api_key.read()
+	api_key_file = open("api_key", "r")
+	api_key = api_key_file.read()
+	api_key_file.close()
+	return api_key
+API_KEY = get_api_key()
 
 def youtube():
-	return build(SERVICE_NAME, VERSION, developerKey=get_api_key())
+	return build(SERVICE_NAME, VERSION, developerKey=API_KEY)
 	
