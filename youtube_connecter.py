@@ -1,8 +1,7 @@
 from googleapiclient.discovery import build
 SERVICE_NAME='youtube'
 VERSION='v3'
-playlist_id='PL-iwWIXCptDxMMTT7MOQBAPoLDeFukrsd'
-
+playlist_id = ""
 def get_api_key():
 	api_key_file = open("api_key", "r")
 	api_key = api_key_file.read()

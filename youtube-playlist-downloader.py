@@ -3,11 +3,14 @@ import os
 import yt_dlp as youtube_dl
 import logging
 PATH = ""
+playlist = input("What playlist do you want to download? ")
 
-if playlist_id == 'PL-iwWIXCptDxMMTT7MOQBAPoLDeFukrsd':
+if playlist == 'stream':
 	PATH="/home/huzi/Music/Stream/"
-else:
+	playlist_id = "PL-iwWIXCptDxMMTT7MOQBAPoLDeFukrsd"
+elif playlist == 'chill':
 	PATH="/home/huzi/Music/Chill/"
+	playlist_id = "PL-iwWIXCptDyWB9hg2c_qamBhbAmhFw7d"
 
 
 def get_playlist(token_offset):
